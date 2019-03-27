@@ -8,7 +8,7 @@ from io import BytesIO
 from fastai import *
 from fastai.vision import *
 
-export_file_url = 'https://drive.google.com/uc?export=download&id=1Ny5JCWSwGDc5TafSLPc6X6uhTvjZ5_DK'
+export_file_url = 'https://drive.google.com/uc?export=download&id=1dFEx0y4muLVdliOL43JdAjhgkMp-m1AU'
 export_file_name = 'export.pkl'
 classes = ['human', 'paint', 'sculpture']
 path = Path(__file__).parent
