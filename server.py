@@ -8,6 +8,10 @@ from io import BytesIO
 from fastai import *
 from fastai.vision import *
 
+# export_file_url = 'https://www.dropbox.com/s/6bgq8t6yextloqp/export.pkl?raw=1'
+# export_file_name = 'export.pkl'
+# classes = ['black', 'grizzly', 'teddys']
+
 export_file_url = 'https://drive.google.com/uc?export=download&id=1dFEx0y4muLVdliOL43JdAjhgkMp-m1AU'
 export_file_name = 'export.pkl'
 classes = ['human', 'paint', 'sculpture']
@@ -15,7 +19,7 @@ path = Path(__file__).parent
 
 app = Starlette()
 app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['X-Requested-With', 'Content-Type'])
-app.mount('/static', StaticFiles(directory='static'))
+app.mount('/static', StaticFiles(directory='app/static'))
 
 async def download_file(url, dest):
     if dest.exists(): return
@@ -52,9 +56,8 @@ async def analyze(request):
     data = await request.form()
     img_bytes = await (data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    return JSONResponse({'result': learn.predict(img)[0]})
+    prediction = learn.predict(img)[0]
+    return JSONResponse({'result': str(prediction)})
 
 if __name__ == '__main__':
-    if 'serve' in sys.argv: uvicorn.run(app, host='0.0.0.0', port=8888)
-
-
+    if 'serve' in sys.argv: uvicorn.run(app=app, host='0.0.0.0', port=5042)
